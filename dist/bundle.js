@@ -104,49 +104,44 @@ module.exports = __webpack_require__.p + "index.htm";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-var Student = /** @class */ (function () {
-    function Student(firstName, middleInitial, lastName) {
-        this.firstName = firstName;
-        this.middleInitial = middleInitial;
-        this.lastName = lastName;
-        this.fullName = firstName + " " + middleInitial + " " + lastName;
-    }
-    return Student;
-}());
-function greeter(person) {
-    return "Hello, " + person.firstName + " " + person.lastName;
-}
-var user = { firstName: "Johan", lastName: "Deere" };
-document.getElementById("content").innerHTML = greeter(user);
-/*
-Above this point: My teachers code.
-Below this point: My own code.
-*/
+//Declaration of elements from HTML
 var inputelement = (document.getElementById("inputcontent"));
 var selectElemet = (document.getElementById("selector"));
 var btnElement = (document.getElementById("StartButton"));
+//Declaration of variables
 var inputstring;
 var outputstring;
+var list = document.createElement("ul");
+var words = [];
+//Adding eventlisteners
 // selectElemet.addEventListener("change", SwitchFunction)
 btnElement.addEventListener("click", SwitchFunction);
 inputelement.addEventListener("change", RefreshInput);
+//Force refresh on input
 function RefreshInput() {
     inputstring = inputelement.value;
-    console.log(inputstring);
 }
+//Switch to se what function the user wants
 function SwitchFunction() {
     switch (selectElemet.value) {
-        case "Volvo":
+        case "Loud":
             outputstring = LoudFunction(inputstring);
             break;
-        case "v70":
+        case "Quiet":
             outputstring = QuietFunction(inputstring);
             break;
-        case "for":
+        case "Reverse":
             outputstring = ReverseFunction(inputstring);
             break;
-        case "Life":
+        case "Count":
             outputstring = CountFunction(inputstring);
+            break;
+        case "Add":
+            AddListFunction(inputstring);
+            outputstring = inputstring;
+            break;
+        case "Delete":
+            DeleteListFunction(inputstring);
             break;
         default:
             outputstring = "Please choose an option.";
@@ -154,22 +149,47 @@ function SwitchFunction() {
     }
     document.getElementById("outputdiv").innerHTML = outputstring;
 }
+//To upper case
 function LoudFunction(input) {
     var str = input.toUpperCase();
     return str;
 }
+//To lower case
 function QuietFunction(input) {
     return input.toLowerCase();
 }
+//Reverse string
 function ReverseFunction(input) {
-    var temp;
-    for (var i = input.length; i >= 0; i--) {
-        temp.push(input[i]);
+    var tempstr = "";
+    for (var i = input.length - 1; i >= 0; i--) {
+        tempstr += input[i];
     }
-    return temp.toString();
+    return tempstr;
 }
+//Count characters
 function CountFunction(input) {
-    return "";
+    return input.length.toString();
+}
+//Add to list of words
+function AddListFunction(input) {
+    words.push(input);
+    console.log(words);
+    var item = document.createElement("li");
+    item.innerHTML = input;
+    DisplayList(item);
+}
+//Remove from list of words
+function DeleteListFunction(input) {
+    var x = words.indexOf(input);
+    words.splice(x, 1);
+    console.log(words);
+    //list.removechild() -- Fordi liste elementet ikke er gemt uden for metoden kan den ikke findes.
+}
+//Display list in HTML
+function DisplayList(item) {
+    //   item.appendChild(document.createTextNode(words[words.length - 1]));
+    list.appendChild(item);
+    document.getElementById("listdiv").appendChild(list);
 }
 
 
